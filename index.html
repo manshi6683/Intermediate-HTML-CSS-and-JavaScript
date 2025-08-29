@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manshi's Web Tools</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #e0f7fa, #fff);
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: #007bff;
+      color: white;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: auto;
+      flex: 1;
+    }
+
+    section.card {
+      background: white;
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease;
+    }
+
+    section.card:hover {
+      transform: translateY(-5px);
+    }
+
+    h2 {
+      margin-bottom: 1rem;
+      color: #007bff;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 1rem;
+    }
+
+    button {
+      padding: 0.75rem 1.5rem;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    ul {
+      list-style: none;
+      margin-top: 1rem;
+    }
+
+    li {
+      background: #f1f1f1;
+      padding: 0.75rem 1rem;
+      margin-bottom: 0.5rem;
+      border-radius: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    li button {
+      background-color: #dc3545;
+      padding: 0.4rem 0.75rem;
+      font-size: 0.9rem;
+    }
+
+    .error-message {
+      color: red;
+      font-size: 0.9rem;
+      margin-top: -0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    footer {
+      background-color: #343a40;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    @media (min-width: 768px) {
+      main {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Manshi's Web Tools</h1>
+    <p>Contact Form & To-Do App</p>
+  </header>
+  <main>
+    <!-- Contact Form -->
+    <section class="card">
+      <h2>Contact Me</h2>
+      <form id="contactForm">
+        <input type="text" id="name" placeholder="Your Name" required>
+        <input type="email" id="email" placeholder="Your Email" required>
+        <textarea id="message" rows="4" placeholder="Your Message" required></textarea>
+        <p id="error" class="error-message"></p>
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+
+    <!-- To-Do List -->
+    <section class="card">
+      <h2>My To-Do List</h2>
+      <div class="input-group">
+        <input type="text" id="taskInput" placeholder="Enter a new task">
+        <button onclick="addTask()">Add</button>
+      </div>
+      <ul id="taskList"></ul>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 Manshi | Web Developer Portfolio</p>
+  </footer>
+
+  <script>
+    // Contact Form Validation
+    document.getElementById("contactForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const message = document.getElementById("message").value.trim();
+      const error = document.getElementById("error");
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!name || !email || !message) {
+        error.textContent = "Please fill in all fields.";
+        return;
+      }
+
+      if (!emailPattern.test(email)) {
+        error.textContent = "Please enter a valid email.";
+        return;
+      }
+
+      error.textContent = "";
+      alert("Message sent successfully!");
+      this.reset();
+    });
+
+    // To-Do List
+    function addTask() {
+      const taskInput = document.getElementById("taskInput");
+      const taskText = taskInput.value.trim();
+
+      if (taskText === "") {
+        alert("Please enter a task.");
+        return;
+      }
+
+      const li = document.createElement("li");
+      li.textContent = taskText;
+
+      const deleteBtn = document.createElement("button");
+      deleteBtn.textContent = "Delete";
+      deleteBtn.onclick = () => li.remove();
+
+      li.appendChild(deleteBtn);
+      document.getElementById("taskList").appendChild(li);
+
+      taskInput.value = "";
+    }
+  </script>
+</body>
+</html>
